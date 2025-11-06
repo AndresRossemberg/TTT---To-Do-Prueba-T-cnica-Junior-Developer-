@@ -43,7 +43,14 @@ export default function TaskList({
             </p>
             <p className="text-gray-600 text-sm">{t.description}</p>
             <p className="text-xs text-gray-400 mt-1">
-              Creado: {new Date(t.created_at).toLocaleString()}
+              Creado:{' '} 
+              {new Date(t.createdAt).toLocaleString('es-ES',{
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                })}
             </p>
           </div>
 

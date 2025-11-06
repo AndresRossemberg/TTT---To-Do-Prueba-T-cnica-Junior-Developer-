@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 
 import { TasksService } from './tasks.service';
@@ -27,12 +28,12 @@ export class TasksController {
   }
 
   @Patch(':id/complete')
-  async complete(@Param('id') id: string): Promise<Task> {
+  async complete(@Param('id', ParseIntPipe) id: number): Promise<Task> {
     return this.tasksService.complete(id);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id', ParseIntPipe) id: number) {
     return this.tasksService.remove(id);
   }
 }

@@ -24,7 +24,7 @@ export class TasksService {
     });
   }
 
-  async complete(id: string) {
+  async complete(id: number) {
     const task = await this.prisma.task.findUnique({ where: { id } });
 
     if (!task) {
@@ -36,7 +36,7 @@ export class TasksService {
     });
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     try {
       return await this.prisma.task.delete({ where: { id } });
     } catch {

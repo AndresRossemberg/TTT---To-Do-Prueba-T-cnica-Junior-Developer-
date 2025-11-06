@@ -1,131 +1,113 @@
-# TTT - To-Do (Prueba Técnica — Junior Developer)
+# TTT - To-Do List (Prueba Técnica — Junior Developer)
 
-**Proyecto:** To-Do list (Next.js + NestJS)  
-**Autor:** <Andres Felipe Rossemberg Hernandez>  
-** entregado como prueba técnica para Two To Tango (TTT).  
-
----
-
-## Resumen (qué es este proyecto)
-
-Aplicación simple de lista de tareas (To-Do) con:
-
-- **Backend:** NestJS (API REST)  
-- **Frontend:** Next.js (React + TypeScript)  
-- **Documentación API:** Swagger (`/api/docs`)  
-- **Funcionalidad:** Crear, listar, marcar completada y eliminar tareas.  
-- **Estado:** MVP funcional local - almacenamiento en memoria (no persistente).
+**Proyecto:** Aplicación Full-Stack de lista de tareas persistente (To-Do)
+**Autor:** <Andres Felipe Rossemberg Hernandez>
+**Estado:** Funcional completo (Persistencia con SQLite)
 
 ---
 
-## Tecnologías
+## Resumen del Proyecto
 
-- Node.js, npm  
-- TypeScript  
-- NestJS (Backend)  
-- Next.js (Frontend)  
-- TailwindCSS (estilos)  
-- Swagger (documentación API)
+Aplicación simple de lista de tareas (To-Do) con un enfoque en la arquitectura moderna Full-Stack y **persistencia de datos**.
 
----
-
-## Estructura del repositorio
-
-ttt-todo-project/
-├─ backend-nest/ # NestJS backend
-│ ├─ src/
-│ │ ├─ tasks/
-│ │ │ ├─ dto/
-│ │ │ ├─ tasks.controller.ts
-│ │ │ ├─ tasks.service.ts
-│ │ │ └─ task.interface.ts
-│ │ └─ main.ts
-│ └─ package.json
-└─ frontend-next/ # NextJS frontend
-├─ src/
-│ ├─ app/
-│ │ └─ page.tsx
-│ ├─ components/
-│ ├─ services/
-│ └─ types/
-└─ package.json
+* **Backend:** NestJS (API REST) con **Prisma ORM** y **SQLite**.
+* **Frontend:** Next.js (React + TypeScript) con validación local y manejo de errores de API.
+* **Funcionalidad:** Crear, listar, marcar completada (PATCH) y eliminar tareas.
+* **Valor Añadido:** Se migró el almacenamiento de memoria a una **Base de Datos SQLite persistente**.
 
 ---
 
-## Pre-requisitos (local)
+## Tecnologías Actualizadas
 
-- Node.js (v16+ recomendado)  
-- npm (v8+ recomendado)  
-- Git  
-- (Opcional) `gh` CLI para crear repositorios desde terminal
+| Componente | Herramienta | Notas de Implementación |
+| :--- | :--- | :--- |
+| **Backend** | NestJS, TypeScript, **Prisma** | Migración de datos, ORM para consultas seguras. |
+| **Base de Datos** | **SQLite** | Almacenamiento local persistente (`dev.db`). |
+| **Frontend** | Next.js, React, TypeScript | Comunicación centralizada con la API. |
+| **Estilos** | TailwindCSS | Estilos rápidos y responsive. |
+| **Documentación** | Swagger | Disponible en `/api/docs`. |
 
 ---
 
-## Cómo ejecutar localmente (rápido)
+## Estructura del Repositorio
 
-### 1. Backend (NestJS)
+El proyecto mantiene una estructura modular Full-Stack:
+
+ttt-todo-project/ 
+├─ backend-nest/ # Servidor NestJS (API REST) 
+│ ├─ prisma/ # Archivos de Schema y Migraciones de Prisma 
+│ │├─ migrations/ # Historial de cambios de la DB 
+│ │└─ schema.prisma # Definición del modelo Task (Int ID) 
+│ ├─ src/ 
+│ │├─ prisma/ # PrismaService inyectable 
+│ │└─ tasks/ # Módulo principal de Tareas 
+│ └─ dev.db # Base de datos SQLite (ignorada por Git) 
+└─ frontend-next/ # Aplicación NextJS 
+├─ src/ 
+│ 
+├─ components/ # Componentes React (TaskForm, TaskList) 
+│ 
+├─ services/ # Lógica de comunicación API (Manejo de errores HTTP) 
+│ 
+└─ types/ # Definiciones de tipos (Task ID: number)
+
+---
+
+## Cómo Ejecutar Localmente (Rápido)
+
+### 1. Backend (NestJS + Prisma/SQLite)
+
+El backend usa ahora una base de datos persistente. Es crucial ejecutar la migración al inicio.
 
 ```bash
-# desde la raíz del proyecto
+# 1. Desde la raíz del proyecto, entrar al backend
 cd backend-nest
 
-# instalar dependencias
+# 2. Instalar dependencias
 npm install
 
-# ejecutar en modo desarrollo (hot-reload)
+# 3. EJECUTAR MIGRACIÓN Y CREAR BASE DE DATOS (Necesario para la persistencia)
+npm run prisma:migrate -- --name init_db_with_int_id
+
+# 4. Ejecutar en modo desarrollo
 npm run start:dev
-El backend quedará corriendo por defecto en: http://localhost:3001
 
-Swagger: http://localhost:3001/api/docs
-
+Servidor API: http://localhost:3001 Swagger: http://localhost:3001/api/docs
 
 2. Frontend (NextJS)
+En una segunda terminal:
 
-En otra terminal:
-
-Copiar código
+# 1. Desde la raíz del proyecto, entrar al frontend
 cd frontend-next
+
+# 2. Instalar dependencias
 npm install
+
+# 3. Ejecutar la aplicación
 npm run dev
-El frontend corre en: http://localhost:3000
 
-La app usa la variable NEXT_PUBLIC_API_URL. Por defecto busca http://localhost:3001.
+Aplicación UI: http://localhost:3000
 
-Variables de entorno
-frontend-next/.env.local
+Notas Técnicas y Decisiones de Diseño
 
-NEXT_PUBLIC_API_URL=http://localhost:3001 (valor por defecto, ya configurado en el proyecto)
+Persistencia y ORM
 
-No hay variables secretas en este MVP (no hay JWT ni DB). Si más adelante se agrega DB o JWT, se documentarán aquí.
+Migración Exitosa: Se reemplazó el almacenamiento en memoria por SQLite utilizando Prisma ORM. Esto asegura que las tareas persistan entre reinicios del servidor.
 
-Endpoints principales (resumen)
-POST /tasks — Crear tarea (body: { title: string, description?: string })
+Tipo de ID: Se cambió el ID de la tabla Task de UUID (String) a un ID numérico autoincrementable (Int) para optimizar el rendimiento y mejorar la práctica del Frontend.
 
-GET /tasks — Listar todas las tareas
+Frontend y UX
 
-PUT /tasks/:id/complete — Marcar tarea como completada
+Validación de Formulario: Se implementó la validación del campo Título en el Frontend (código del cliente) y un manejo robusto de errores 400 Bad Request del servidor.
 
-DELETE /tasks/:id — Eliminar tarea
+Manejo de Errores HTTP: Las funciones de API (services/api.ts) ahora capturan errores HTTP (4xx, 5xx) y los lanzan con el cuerpo del mensaje del servidor, lo que permite mostrar la razón de la falla de forma clara en el formulario.
 
-La documentación interactiva está en /api/docs.
+Corrección de Endpoint: Se corrigió el método HTTP para la acción de completar de PUT a PATCH (/tasks/:id/complete), según la convención RESTful.
 
-Cómo probar manualmente
+Endpoints Principales (Actualizados)
 
-Levanta backend y frontend (ver arriba).
-
-Abre Swagger: http://localhost:3001/api/docs y prueba los endpoints.
-
-Abre UI: http://localhost:3000 — crea tareas, márcalas y elimínalas.
-
-Decisiones de diseño y notas técnicas
-
-MVP en memoria: Para entregar funcionalidad en el tiempo solicitado, el backend guarda datos en memoria (Task[]). Esto facilita el desarrollo y la prueba rápida. En producción, se reemplazaría por una base de datos (SQLite/Postgres) y migraciones (Prisma/TypeORM).
-
-Validación: Usamos DTOs y class-validator en NestJS para validar los inputs en POST /tasks.
-
-Documentación: @nestjs/swagger provee documentación interactiva en /api/docs.
-
-Frontend: Next.js con Client Components para los formularios y hooks de React (useState, useEffect). La comunicación contra la API está centralizada en src/services/api.ts.
-
-Estilos: TailwindCSS para estilos rápidos y responsive.
-
+Método,    Endpoint,      Descripción
+POST,/     tasks,         "Crear tarea (body: { title: string, description?: string })"
+GET,/      tasks,         Listar todas las tareas (persistentes).
+PATCH,/    tasks/:id/     complete,Marcar tarea como completada (Método corregido).
+DELETE,/   tasks/:id,     Eliminar tarea.
