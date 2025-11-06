@@ -33,23 +33,21 @@ Aplicación simple de lista de tareas (To-Do) con un enfoque en la arquitectura 
 
 El proyecto mantiene una estructura modular Full-Stack:
 
-ttt-todo-project/ 
-├─ backend-nest/ # Servidor NestJS (API REST) 
-│ ├─ prisma/ # Archivos de Schema y Migraciones de Prisma 
-│ │├─ migrations/ # Historial de cambios de la DB 
-│ │└─ schema.prisma # Definición del modelo Task (Int ID) 
-│ ├─ src/ 
-│ │├─ prisma/ # PrismaService inyectable 
-│ │└─ tasks/ # Módulo principal de Tareas 
-│ └─ dev.db # Base de datos SQLite (ignorada por Git) 
-└─ frontend-next/ # Aplicación NextJS 
-├─ src/ 
-│ 
-├─ components/ # Componentes React (TaskForm, TaskList) 
-│ 
-├─ services/ # Lógica de comunicación API (Manejo de errores HTTP) 
-│ 
-└─ types/ # Definiciones de tipos (Task ID: number)
+ttt-todo-project/
+├─ backend-nest/           # Servidor NestJS (API REST)
+│  ├─ prisma/               # Archivos de Schema y Migraciones de Prisma
+│  │  ├─ migrations/         # Historial de cambios de la DB
+│  │  └─ schema.prisma       # Definición del modelo Task (Int ID)
+│  ├─ src/
+│  │  ├─ prisma/             # PrismaService inyectable
+│  │  └─ tasks/              # Módulo principal de Tareas (Controller, Service, DTOs)
+│  └─ dev.db                # Base de datos SQLite (ignorada por Git)
+└─ frontend-next/          # Aplicación NextJS (React)
+   ├─ src/
+   │  ├─ components/         # Componentes React (TaskForm, TaskList)
+   │  ├─ services/           # Lógica de comunicación API (Manejo de errores HTTP)
+   │  └─ types/              # Definiciones de tipos (Task ID: number)
+   └─ .env.local            # Variables de entorno públicas (NEXT_PUBLIC_API_URL)
 
 ---
 
