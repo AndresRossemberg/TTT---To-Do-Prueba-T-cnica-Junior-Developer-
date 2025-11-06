@@ -29,7 +29,7 @@ Aplicación simple de lista de tareas (To-Do) con un enfoque en la arquitectura 
 
 ---
 
-##  Estructura del Repositorio
+## 🏗️ Estructura del Repositorio
 
 El proyecto mantiene una estructura modular Full-Stack, separando el backend, el frontend y la configuración de persistencia:
 
