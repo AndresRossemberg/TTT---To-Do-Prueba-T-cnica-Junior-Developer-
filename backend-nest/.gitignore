@@ -2,6 +2,11 @@
 /dist
 /node_modules
 /build
+/backend-nest/node_modules/.prisma
+/backend-nest/.env # Ya está abajo, pero mejor ser explícitos
+/backend-nest/dev.db # Ignora el archivo de base de datos SQLite
+.next/
+/out/
 
 # Logs
 logs
@@ -54,3 +59,9 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+/generated/prisma
+*.db
+*.sqlite
+*.sqlite3
+dev.db
